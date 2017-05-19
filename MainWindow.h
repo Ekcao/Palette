@@ -24,13 +24,14 @@ private:
 	QMenu *fileMenu;
 	QAction *openImageAction;
 	QLabel *imageLabel;
-	QPixmap pixmap;
-	QString imageFilePath;
     ColorImage image;
 
 	void createMenu();
 	void createMainVerticalLayout();
 	void createColorsGroupBox();
+    void createColorWidgetsFromImage();
+
+    QString pickImageFilePath();
 public:
 	MainWindow(QWidget *parent = 0);
 private slots:

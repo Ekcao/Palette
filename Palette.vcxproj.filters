@@ -53,13 +53,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ColorImage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <CustomBuild Include="ColorWidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="MainWindow.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ColorImage.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

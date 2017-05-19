@@ -4,7 +4,9 @@ ColorImage::ColorImage() {}
 
 ColorImage::ColorImage(const QString &fileName, const char * format) : QImage(fileName, format) {
     countColorFrequency();
+    sortColorFrequency();
 }
+
 
 void ColorImage::countColorFrequency() {
     for (int y = 0; y < height(); y++) {
@@ -25,4 +27,14 @@ void ColorImage::sortColorFrequency() {
     }
 
     std::sort(colorCountVector.begin(), colorCountVector.end());
+}
+
+ColorCountVector ColorImage::getNthMostFrequentColors(size_t n) {
+    size_t end = std::min(colorCountVector.size(), n);
+    return ColorCountVector(colorCountVector.end() - end, colorCountVector.end());
+}
+
+ColorCountVector ColorImage::getNthLeastFrequentColors(size_t n) {
+    size_t end = std::min(colorCountVector.size(), n);
+    return ColorCountVector(colorCountVector.begin(), colorCountVector.begin() + end);
 }
