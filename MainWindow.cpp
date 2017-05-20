@@ -6,59 +6,60 @@
 #include <QStatusBar>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    createMenu();
-    createColorsGroupBox();
-    createMainVerticalLayout();
+    initMenus();
+    initColorsGroup();
+    initMainLayout();
 
-    centralWidget = new QWidget;
-    centralWidget->setLayout(mainVerticalLayout);
+    QWidget * centralWidget = new QWidget;
+    centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
 
-    connect(openImageAction, &QAction::triggered, this, &MainWindow::openImage);
+    connect(openImageAction, &QAction::triggered, this, &MainWindow::openImageFromFile);
 }
 
-void MainWindow::createMenu() {
+
+void MainWindow::initMenus() {
     fileMenu = menuBar()->addMenu(tr("&File"));
     openImageAction = fileMenu->addAction(tr("&Open Image"));
 }
 
-void MainWindow::createMainVerticalLayout() {
-    mainVerticalLayout = new QVBoxLayout;
-    imageLabel = new QLabel;
-    mainVerticalLayout->addWidget(imageLabel);
-    mainVerticalLayout->addWidget(colorsGroupBox);
+void MainWindow::initMainLayout() {
+    mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(colorsGroupBox);
 }
 
-void MainWindow::createColorsGroupBox() {
+void MainWindow::initColorsGroup() {
     colorsGroupBox = new QGroupBox(tr("Colors"));
-    colorsVerticalLayout = new QVBoxLayout;
+    colorsVBoxLayout = new QVBoxLayout;
 
-    colorsGroupBox->setLayout(colorsVerticalLayout);
+    colorsGroupBox->setLayout(colorsVBoxLayout);
 }
 
-void MainWindow::createColorWidgetsFromImage() {
-    if (!image.isNull()) {
-        ColorCountVector topFiveColors = image.getNthMostFrequentColors(5);
+void MainWindow::initColorWidgets() {
+    if (!colorImage.isNull()) {
+        ColorCountVector topFiveColors = colorImage.getNthMostFrequentColors(5);
         for (ColorCount colorCount : topFiveColors) {
-            colorsVerticalLayout->addWidget(new ColorWidget(colorCount.second));
+            colorsVBoxLayout->addWidget(new ColorWidget(colorCount.second));
         }
     }
 }
 
-void MainWindow::openImage() {
-    QString imageFilePath = pickImageFilePath();
+void MainWindow::openImageFromFile() {
+    QString imageFilePath = getImageFilePath();
 
 	if (!imageFilePath.isNull()) {
+        imageLabel = new QLabel;
 		QPixmap pixmap(imageFilePath);
 		imageLabel->setPixmap(pixmap);
-        image = ColorImage(imageFilePath);
-        createColorWidgetsFromImage();
+        mainLayout->addWidget(imageLabel);
+        colorImage = ColorImage(imageFilePath);
+        initColorWidgets();
 
         statusBar()->addWidget(new QLabel(imageFilePath));
 	}
 }
 
-QString MainWindow::pickImageFilePath() {
+QString MainWindow::getImageFilePath() {
     return QFileDialog::getOpenFileName(this,
                                         tr("Open Image"),
                                         QStandardPaths::displayName(QStandardPaths::PicturesLocation),

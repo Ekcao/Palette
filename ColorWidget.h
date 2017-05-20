@@ -9,14 +9,14 @@ class ColorWidget : public QWidget {
 private:
 	QColor color;
     QLabel *colorLabel;
-    QLabel *rLabel;
-    QLabel *gLabel;
-    QLabel *bLabel;
-	QGridLayout *layout;
+    QLabel *redLabel;
+    QLabel *greenLabel;
+    QLabel *blueLabel;
+	QGridLayout *gridLayout;
 
-	void createLayout();
-    void createColorLabel();
-    void createRGBLabels();
+	void initGridLayout();
+    void initColorLabel();
+    void initRGBLabels();
 
     std::string colorBGRToString(QColor color);
 public:

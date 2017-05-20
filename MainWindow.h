@@ -16,24 +16,23 @@
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 private:
-	QWidget *centralWidget;
-	QVBoxLayout *mainVerticalLayout;
+	QVBoxLayout *mainLayout;
 	QGroupBox *colorsGroupBox;
-	QVBoxLayout *colorsVerticalLayout;
+	QVBoxLayout *colorsVBoxLayout;
 
 	QMenu *fileMenu;
 	QAction *openImageAction;
 	QLabel *imageLabel;
-    ColorImage image;
+    ColorImage colorImage;
 
-	void createMenu();
-	void createMainVerticalLayout();
-	void createColorsGroupBox();
-    void createColorWidgetsFromImage();
+	void initMenus();
+	void initMainLayout();
+	void initColorsGroup();
+    void initColorWidgets();
 
-    QString pickImageFilePath();
+    QString getImageFilePath();
 public:
 	MainWindow(QWidget *parent = 0);
 private slots:
-	void openImage();
+	void openImageFromFile();
 };
